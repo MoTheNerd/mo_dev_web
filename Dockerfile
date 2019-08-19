@@ -9,4 +9,5 @@ COPY ./build /usr/share/mo_dev_web
 RUN cd /usr/share/mo_dev_web
 RUN yarn global add serve
 
+
 CMD ["serve", "-l", "5002", "."]
