@@ -1,4 +1,4 @@
-FROM node:12.8.0-alpine
+FROM node:12.14.1-alpine
 
 ENV COMPlus_EnableDiagnostics=0
 WORKDIR /usr/share/mo_dev_web
