@@ -83,6 +83,6 @@ const StyledSubmitButton = styled.button`
   color: #FFFFFF;
   font-family: "Open Sans";
   font-weight: 300;
-  font-size: 25px;
+  font-size: 20px;
   background-color: #101010;
 `
