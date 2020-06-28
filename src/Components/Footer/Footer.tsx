@@ -8,10 +8,10 @@ export class Footer extends React.Component {
         {/* Links */}
         <FooterSection>
           <FooterRow>
-            <a href="https://github.com/MoTheNerd">GitHub</a>
+            <a href="https://github.com/hackrmomo">GitHub</a>
             <a href="https://www.linkedin.com/in/mohammadalahdal/">LinkedIn</a>
-            <a href="https://www.instagram.com/itsmomo/">Instagram</a>
-            <a href="https://twitter.com/itsmomo_dev">Twitter</a>
+            <a href="https://www.instagram.com/hackrmomo/">Instagram</a>
+            <a href="https://twitter.com/hackrmomo">Twitter</a>
           </FooterRow>
         </FooterSection>
         {/* Copyright */}
