@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { HomeScreen, Error404Screen, PortfolioScreen, ContactScreen } from './Screens';
+import { HomeScreen, Error404Screen, PortfolioScreen, ContactScreen, LoginScreen } from './Screens';
 import { NavBar, NavPanel, Footer } from './Components';
 import styled from 'styled-components';
 
@@ -14,6 +14,7 @@ function Router() {
           <Route path="/" exact component={HomeScreen} />
           <Route path="/portfolio" exact component={PortfolioScreen} />
           <Route path="/contact" exact component={ContactScreen} />
+          <Route path="/login" exact component={LoginScreen} />
           <Route component={Error404Screen} />
         </Switch>
         <Footer />
