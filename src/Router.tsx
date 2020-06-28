@@ -32,4 +32,19 @@ const RootContainer = styled.div`
   min-height: 100vh;
   width: 100vw;
   justify-content: space-between;
+
+  * {
+    a {
+      &:focus{
+        outline: none;
+        text-shadow: 0px 0px 5px rgba(255,255,255,0.95);
+      }
+    }
+    button {
+      &:focus{
+        outline: none;
+        box-shadow: 0px 0px 5px rgba(255,255,255,0.95);
+      }
+    }
+  }
 `
