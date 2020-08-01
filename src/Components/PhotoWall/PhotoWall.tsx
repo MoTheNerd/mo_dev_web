@@ -3,20 +3,20 @@ import styled from 'styled-components';
 
 const fakeData = [
   [
-    { gridWidth: 5, src: "https://images.unsplash.com/photo-1581252165015-9b5151a6930e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=930&q=80" },
-    { gridWidth: 10, src: "https://images.unsplash.com/photo-1581356503493-56761c5a88fd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" },
-    { gridWidth: 5, src: "https://images.unsplash.com/photo-1581299894330-0ff5faf1529d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80" }
+    { gridWidth: 5, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/25A797EE-2727-4DBF-ABC7-6B2C2BF1091A.JPG" },
+    { gridWidth: 10, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/3EFA831E-AF78-404A-B99C-06E7C4D4BBC4.JPG" },
+    { gridWidth: 5, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/FB21518C-D0F2-49E7-9937-F8286CF0EC96.JPG" }
   ],
   [
-    { gridWidth: 3, src: "https://images.unsplash.com/photo-1581364008002-659cb816e322?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80" },
-    { gridWidth: 4, src: "https://images.unsplash.com/photo-1581357824893-67965830191c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80" },
-    { gridWidth: 8, src: "https://images.unsplash.com/photo-1581311657685-a9e7b27aabfa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" },
-    { gridWidth: 5, src: "https://images.unsplash.com/photo-1577885641242-62d00d75184f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80" }
+    { gridWidth: 3, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/E6B51AE4-4136-446E-85F0-D21134769F12.JPG" },
+    { gridWidth: 4, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/DSC02991.jpg" },
+    { gridWidth: 8, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/IMG_0631.JPG" },
+    { gridWidth: 5, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/94FFD191-B4B5-4777-BFC3-EE8C9C41B8D1.JPG" }
   ],
   [
-    { gridWidth: 2, src: "https://images.unsplash.com/photo-1581289098389-e322c1e66b3d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80" },
-    { gridWidth: 16, src: "https://images.unsplash.com/photo-1581329773757-330d975ca060?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1568&q=80" },
-    { gridWidth: 2, src: "https://images.unsplash.com/photo-1581299495382-2e208a99e079?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" }
+    { gridWidth: 2, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/IMG_0621.JPG" },
+    { gridWidth: 16, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/DSC02286.JPG" },
+    { gridWidth: 2, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/DSC02988.jpg" }
   ]
 ]
 
