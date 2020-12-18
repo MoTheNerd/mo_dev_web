@@ -1,6 +1,6 @@
 import React from 'react';
-import menuButton from '../../assets/menu-button.svg';
-import homeButton from '../../assets/momo-icon.svg';
+import menuButton from '../../Assets/menu-button.svg';
+import homeButton from '../../Assets/momo-icon.svg';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { setState } from 'litsy';

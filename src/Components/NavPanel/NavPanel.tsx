@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components';
 import { subscribeToState, setState } from 'litsy'
-import backsvg from '../../assets/back-button.svg'
+import backsvg from '../../Assets/back-button.svg'
 
 const navItems = [
   { to: "/", title: "Home" },

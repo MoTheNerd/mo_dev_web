@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components'
 import Lottie from 'react-lottie';
-import momoMain from '../../assets/data.json';
-import scrollDown from '../../assets/scroll-down-animation.json';
+import momoMain from '../../Assets/data.json';
+import scrollDown from '../../Assets/scroll-down-animation.json';
 import { PhotoWall, InfoCard } from '../../Components'
 
 interface HomeScreenProps {

@@ -9,9 +9,9 @@ export class Error404Screen extends React.Component {
         <h3>{`<Error 404>`}</h3>
         <code>
           <span>{"{"}</span>
-          <span>{`\t`}<span style={{color: "#33cc99"}}>"type"</span>: <span style={{color: "#FF5555"}}>"ERROR"</span>,</span>
-          <span>{`\t`}<span style={{color: "#33cc99"}}>"message"</span>: <span style={{color: "#FF5555"}}>"Error 404 - Page not found"</span>,</span>
-          <span>{`\t`}<span style={{color: "#33cc99"}}>"description"</span>: <span style={{color: "#FF5555"}}>"Click here to head back <Link to="/">Home</Link>"</span></span>
+          <span>{`\t`}<span style={{ color: "#33cc99" }}>"type"</span>: <span style={{ color: "#FF5555" }}>"ERROR"</span>,</span>
+          <span>{`\t`}<span style={{ color: "#33cc99" }}>"message"</span>: <span style={{ color: "#FF5555" }}>"Error 404 - Page not found"</span>,</span>
+          <span>{`\t`}<span style={{ color: "#33cc99" }}>"description"</span>: <span style={{ color: "#FF5555" }}>"Click here to head back <Link to="/">Home</Link>"</span></span>
 
           <span>{"}"}</span>
         </code>
