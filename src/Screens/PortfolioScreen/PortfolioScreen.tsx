@@ -1,34 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PortfolioItem } from '../../Components/PortfolioItem';
-
-let fakeData = [
-  {
-    imgUrl: "https://images.unsplash.com/photo-1581790413682-69d8776f9533?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80",
-    markdown: `# Test\nLoremIpsum e et etc.\n\ndsadsadsadsa\n\nddsadsaydsa dsahdsa ds ahdsa hdsah udh sa dah dsauy dyusa dsaydyasu dyas d asgdysagduygsauy dgyusa uydgsayugdusag y gdsay uydg sayugdusyag dshaydtasy dasyutdas dysauy dsa ydusa dsa\n\n[Continue Reading](https://dsa.inc)`
-  },
-  {
-    imgUrl: "https://images.unsplash.com/photo-1581875598921-869af98b4939?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
-    markdown: `# Test2\nLoremIpsum e et etc.\n\ndsadsadsadsa\n\nddsadsaydsa dshaydtasy dasyutdas dysauy dsa ydusa dsa\n\n[Continue Reading](https://dsa.inc)`
-  },
-  {
-    imgUrl: "https://images.unsplash.com/photo-1581790413682-69d8776f9533?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80",
-    markdown: `# Test3\nLoremIpsum e et etc.\n\ndsadsadsadsa\n\nddsadsaydsa dshaydtasy dasyutdas dysauy dsa ydusa dsa\n\n[Continue Reading](https://dsa.inc)`
-  },
-  {
-    imgUrl: "https://images.unsplash.com/photo-1581875598921-869af98b4939?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80",
-    markdown: `# Test4\nLoremIpsum e et etc.\n\ndsadsadsadsa\n\nddsadsaydsa dshaydtasy dasyutdas dysauy dsa ydusa dsa\n\n[Continue Reading](https://dsa.inc)`
-  }
-]
+import {setState, subscribeToState, getState} from 'litsy';
+import axios from 'axios';
+import {config} from '../../Config'
+import {IPortfolioItem} from '../../Models/IPortfolioItem'
 
 export class PortfolioScreen extends React.Component {
+
+  portfolioEntities: Array<IPortfolioItem> | null = null
+
+  async componentDidMount () {
+    let serverResponse = await axios.get(`${config.PORTFOLIO_SERVER_ENDPOINT}/posts`);
+    subscribeToState("portfolio_items", "PortfolioScreen", () => {this.forceUpdate.bind(this)()}, "volatile")
+    setState("portfolio_items", serverResponse.data, "volatile");
+  }
+
   render() {
+    this.portfolioEntities = getState("portfolio_items", "volatile");
     return (
       <PortfolioScreenContainer>
-        {
-          fakeData.map(
-            (data, index) => <PortfolioItem imgUrl={data.imgUrl} direction={index % 2 === 0 ? "right" : "left"} markdown={data.markdown} />
-          )
+        { 
+          this.portfolioEntities && this.portfolioEntities.map
+          ? this.portfolioEntities.map(
+            (data, index) => <PortfolioItem key={index} imgUrl={data.imgUri} direction={index % 2 === 0 ? "right" : "left"} markdown={data.markdown} />) 
+          : <div></div>
         }
       </PortfolioScreenContainer>
     )

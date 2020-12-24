@@ -15,7 +15,7 @@ export class PortfolioItem extends React.Component<PortfolioItemProps> {
         <PortfolioItemImage {...this.props} />
         <PortfolioItemMarkdownContainer {...this.props}>
           <ReactMarkdown
-            source={this.props.markdown}
+            source={`${this.props.markdown.replace(/\\n/g, "\n")}`}
           />
         </PortfolioItemMarkdownContainer>
       </PortfolioItemContainer>
