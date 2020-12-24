@@ -4,11 +4,12 @@ import styled, { keyframes } from 'styled-components';
 import { subscribeToState, setState } from 'litsy'
 import backsvg from '../../Assets/back-button.svg'
 
-const navItems = [
-  { to: "/", title: "Home" },
-  { to: "/portfolio", title: "Portfolio" },
-  { to: "/contact", title: "Contact" },
-  { to: `/login`, title: `Login` },
+let navItems = [
+  { to: "/", title: "Home", isActive: true },
+  { to: "/portfolio", title: "Portfolio", isActive: true },
+  { to: "/contact", title: "Contact", isActive: true },
+  { to: `/login`, title: `Login`, isActive: true },
+  { to: `/dashboard`, title: `Dashboard`, isActive: false }
 ];
 
 interface NavPanelProps {
@@ -39,6 +40,11 @@ export class NavPanel extends React.Component<NavPanelProps, NavPanelState> {
         setTimeout(this.delayed.bind(this), 300)
       }
     }, "volatile")
+    subscribeToState("mohammad.dev.auth.authToken", "NavPanel", (token: string) => {
+      navItems = navItems.map(a => a.to === `/login` ? { ...a, isActive: token && token !== "" ? false : true } : a)
+      navItems = navItems.map(a => a.to === `/dashboard` ? { ...a, isActive: token && token !== "" ? true : false } : a)
+      this.forceUpdate.bind(this)()
+    }, "persist")
   }
 
   render() {
@@ -56,7 +62,7 @@ export class NavPanel extends React.Component<NavPanelProps, NavPanelState> {
                 Back
               </BackButtonContainer>
               : null}
-            {navItems.map((navItem, index) =>
+            {navItems.filter(a => a.isActive).map((navItem, index) =>
               <Link onClick={() => {
                 setState("mohammad.dev.nav.isShown", false, "volatile")
               }} key={index} to={navItem.to}>
