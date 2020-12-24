@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components';
-import { subscribeToState, setState } from 'litsy'
+import { subscribeToState, setState, getState } from 'litsy'
 import backsvg from '../../Assets/back-button.svg'
 
 let navItems = [
@@ -11,6 +11,9 @@ let navItems = [
   { to: `/login`, title: `Login`, isActive: true },
   { to: `/dashboard`, title: `Dashboard`, isActive: false }
 ];
+var initialToken = getState("mohammad.dev.auth.authToken", "persist")
+navItems = navItems.map(a => a.to === `/login` ? { ...a, isActive: initialToken && initialToken !== "" ? false : true } : a)
+navItems = navItems.map(a => a.to === `/dashboard` ? { ...a, isActive: initialToken && initialToken !== "" ? true : false } : a)
 
 interface NavPanelProps {
 
