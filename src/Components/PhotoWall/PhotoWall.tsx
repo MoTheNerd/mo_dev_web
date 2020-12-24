@@ -1,24 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components'
+import { config } from '../../Config'
+import axios from 'axios'
+import {IPhotographyItem} from '../../Models/IPhotographyItem'
+import { getState, setState, subscribeToState } from 'litsy';
 
-const fakeData = [
-  [
-    { gridWidth: 5, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/25A797EE-2727-4DBF-ABC7-6B2C2BF1091A.JPG" },
-    { gridWidth: 10, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/3EFA831E-AF78-404A-B99C-06E7C4D4BBC4.JPG" },
-    { gridWidth: 5, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/FB21518C-D0F2-49E7-9937-F8286CF0EC96.JPG" }
-  ],
-  [
-    { gridWidth: 3, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/E6B51AE4-4136-446E-85F0-D21134769F12.JPG" },
-    { gridWidth: 4, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/DSC02991.jpg" },
-    { gridWidth: 8, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/IMG_0631.JPG" },
-    { gridWidth: 5, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/94FFD191-B4B5-4777-BFC3-EE8C9C41B8D1.JPG" }
-  ],
-  [
-    { gridWidth: 2, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/IMG_0621.JPG" },
-    { gridWidth: 16, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/DSC02286.JPG" },
-    { gridWidth: 2, src: "https://modev.sfo2.digitaloceanspaces.com/photography/canvas/DSC02988.jpg" }
-  ]
-]
+interface IHomePagePhotoWallItem {
+  gridWidth: number,
+  image: IPhotographyItem
+}
 
 interface PhotoWallProps {
   isShown: boolean
@@ -26,8 +16,29 @@ interface PhotoWallProps {
 
 export class PhotoWall extends React.Component<PhotoWallProps> {
 
-  componentWillMount() {
+  photoWallItems: Array<Array<IHomePagePhotoWallItem>> | null = null
+
+  private generateWidthsForRow(maxWidth: number = 20) : Array<number> {
+    var returnArray: Array<number> = []
+    while (maxWidth > 0) {
+      var entityWidth = Math.ceil(Math.random()*maxWidth*0.75)
+      returnArray.push(maxWidth - entityWidth <= 0 ? maxWidth : entityWidth)
+      maxWidth -= entityWidth
+    }
+    return returnArray
+  }
+
+  async componentDidMount() {
     window.addEventListener("resize", this.listenToResize.bind(this))
+    let serverResponse = await axios.get(`${config.PHOTOGRAPHY_SERVER_ENDPOINT}/posts`);
+    subscribeToState("photography_items", "PhotoWall", () => { this.forceUpdate.bind(this)() }, "volatile")
+    // this requires us to have a minimum of 60 photos in the database to ensure that the site never crashes due to a javascript error
+    let unTransformedResponseData: Array<IPhotographyItem> = serverResponse.data
+    let generatedWidthArray: Array<Array<number>> = []
+    for (let i = 0; i < 3; i++) {
+      generatedWidthArray[i] = this.generateWidthsForRow()
+    }
+    setState("photography_items", generatedWidthArray.map(a => a.map(c => ({gridWidth: c, image: unTransformedResponseData.pop()}))), "volatile");
   }
 
   componentWillUnmount() {
@@ -39,22 +50,25 @@ export class PhotoWall extends React.Component<PhotoWallProps> {
   }
 
   render() {
+    this.photoWallItems = getState("photography_items", "volatile")
+    console.log(this.photoWallItems)
     return (
       <PhotoWallContainterDiv>
         {
-          fakeData.map((row, rowIndex) => {
+          this.photoWallItems && this.photoWallItems.map ?
+          this.photoWallItems.map((row, rowIndex) => {
             return (
               <ImageRow key={rowIndex}>
                 {
                   row.map((item, itemIndex) => {
                     return (
-                      <ImageItem key={itemIndex} show={this.props.isShown} indexDelay={rowIndex + itemIndex} gridWidth={item.gridWidth} src={item.src} />
+                      <ImageItem key={itemIndex} show={this.props.isShown} indexDelay={rowIndex + itemIndex} gridWidth={item.gridWidth} src={item.image.imgUri} />
                     )
                   })
                 }
               </ImageRow>
             )
-          })
+          }) : <div></div>
         }
       </PhotoWallContainterDiv>
     )
