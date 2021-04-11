@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import { PortfolioItem } from '../../Components/PortfolioItem';
-import {setState, subscribeToState, getState} from 'litsy';
+import { setState, subscribeToState, getState } from 'litsy';
 import axios from 'axios';
-import {config} from '../../Config'
-import {IPortfolioItem} from '../../Models/IPortfolioItem'
+import { config } from '../../Config'
+import { IPortfolioItemsList } from '../../Models/IPortfolioItemsList'
 
 export class PortfolioScreen extends React.Component {
 
-  portfolioEntities: Array<IPortfolioItem> | null = null
+  portfolioEntities: IPortfolioItemsList | null = null
 
-  async componentDidMount () {
+  async componentDidMount() {
     let serverResponse = await axios.get(`${config.PORTFOLIO_SERVER_ENDPOINT}/posts`);
-    subscribeToState("portfolio_items", "PortfolioScreen", () => {this.forceUpdate.bind(this)()}, "volatile")
+    subscribeToState("portfolio_items", "PortfolioScreen", () => { this.forceUpdate.bind(this)() }, "volatile")
     setState("portfolio_items", serverResponse.data, "volatile");
   }
 
@@ -20,11 +20,11 @@ export class PortfolioScreen extends React.Component {
     this.portfolioEntities = getState("portfolio_items", "volatile");
     return (
       <PortfolioScreenContainer>
-        { 
-          this.portfolioEntities && this.portfolioEntities.map
-          ? this.portfolioEntities.map(
-            (data, index) => <PortfolioItem key={index} imgUrl={data.imgUri} direction={index % 2 === 0 ? "right" : "left"} markdown={data.markdown} />) 
-          : <div></div>
+        {
+          this.portfolioEntities && this.portfolioEntities.items && this.portfolioEntities.items.map
+            ? this.portfolioEntities.items.map(
+              (data, index) => <PortfolioItem key={index} imgUrl={data.imageUri} direction={index % 2 === 0 ? "right" : "left"} markdown={data.markdown} />)
+            : <div></div>
         }
       </PortfolioScreenContainer>
     )
