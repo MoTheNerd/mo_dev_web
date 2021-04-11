@@ -12,10 +12,10 @@ export let config: Config = {
 
 if (process.env.NODE_ENV === "production") {
   config.AUTH_SERVER_ENDPOINT = "https://api.mohammad.dev/auth"
-  config.PORTFOLIO_SERVER_ENDPOINT = "https://portfolio.api.mohammad.dev"
-  config.PHOTOGRAPHY_SERVER_ENDPOINT = "https://photography.api.mohammad.dev"
+  config.PORTFOLIO_SERVER_ENDPOINT = "https://api.mohammad.dev/portfolio"
+  config.PHOTOGRAPHY_SERVER_ENDPOINT = "https://api.mohammad.dev/photograph"
 } else {
   config.AUTH_SERVER_ENDPOINT = "https://localhost:5001/auth"
-  config.PORTFOLIO_SERVER_ENDPOINT = "http://localhost:6002"
-  config.PHOTOGRAPHY_SERVER_ENDPOINT = "http://localhost:6003"
+  config.PORTFOLIO_SERVER_ENDPOINT = "https://localhost:5001/portfolio"
+  config.PHOTOGRAPHY_SERVER_ENDPOINT = "https://localhost:5001/photograph"
 }
