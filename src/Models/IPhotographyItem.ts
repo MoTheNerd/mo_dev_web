@@ -9,5 +9,5 @@ export interface IPhotographyItem {
 }
 
 export interface IPhotographyItemsList {
-    items: Array<IPhotographyItem>
+    photographs: Array<IPhotographyItem>
 }

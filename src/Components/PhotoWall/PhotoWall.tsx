@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import { config } from '../../Config'
 import axios from 'axios'
-import {IPhotographyItem} from '../../Models/IPhotographyItem'
+import { IPhotographyItemsList, IPhotographyItem } from '../../Models/IPhotographyItem'
 import { getState, setState, subscribeToState } from 'litsy';
 
 interface IHomePagePhotoWallItem {
@@ -18,10 +18,10 @@ export class PhotoWall extends React.Component<PhotoWallProps> {
 
   photoWallItems: Array<Array<IHomePagePhotoWallItem>> | null = null
 
-  private generateWidthsForRow(maxWidth: number = 20) : Array<number> {
+  private generateWidthsForRow(maxWidth: number = 20): Array<number> {
     var returnArray: Array<number> = []
     while (maxWidth > 0) {
-      var entityWidth = Math.ceil(Math.random()*maxWidth*0.75)
+      var entityWidth = Math.ceil(Math.random() * maxWidth * 0.75)
       returnArray.push(maxWidth - entityWidth <= 0 ? maxWidth : entityWidth)
       maxWidth -= entityWidth
     }
@@ -33,12 +33,12 @@ export class PhotoWall extends React.Component<PhotoWallProps> {
     let serverResponse = await axios.get(`${config.PHOTOGRAPHY_SERVER_ENDPOINT}/posts`);
     subscribeToState("photography_items", "PhotoWall", () => { this.forceUpdate.bind(this)() }, "volatile")
     // this requires us to have a minimum of 60 photos in the database to ensure that the site never crashes due to a javascript error
-    let unTransformedResponseData: Array<IPhotographyItem> = serverResponse.data
+    let unTransformedResponseData: IPhotographyItemsList = serverResponse.data
     let generatedWidthArray: Array<Array<number>> = []
     for (let i = 0; i < 3; i++) {
       generatedWidthArray[i] = this.generateWidthsForRow()
     }
-    setState("photography_items", generatedWidthArray.map(a => a.map(c => ({gridWidth: c, image: unTransformedResponseData.pop()}))), "volatile");
+    setState("photography_items", generatedWidthArray.map(a => a.map(c => ({ gridWidth: c, image: unTransformedResponseData.photographs.pop() }))), "volatile");
   }
 
   componentWillUnmount() {
@@ -56,19 +56,19 @@ export class PhotoWall extends React.Component<PhotoWallProps> {
       <PhotoWallContainterDiv>
         {
           this.photoWallItems && this.photoWallItems.map ?
-          this.photoWallItems.map((row, rowIndex) => {
-            return (
-              <ImageRow key={rowIndex}>
-                {
-                  row.map((item, itemIndex) => {
-                    return (
-                      <ImageItem key={itemIndex} show={this.props.isShown} indexDelay={rowIndex + itemIndex} gridWidth={item.gridWidth} src={item.image.imgUri} />
-                    )
-                  })
-                }
-              </ImageRow>
-            )
-          }) : <div></div>
+            this.photoWallItems.map((row, rowIndex) => {
+              return (
+                <ImageRow key={rowIndex}>
+                  {
+                    row.map((item, itemIndex) => {
+                      return (
+                        <ImageItem key={itemIndex} show={this.props.isShown} indexDelay={rowIndex + itemIndex} gridWidth={item.gridWidth} src={item.image.imageUri} />
+                      )
+                    })
+                  }
+                </ImageRow>
+              )
+            }) : <div></div>
         }
       </PhotoWallContainterDiv>
     )
