@@ -1,62 +1,66 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import io from 'socket.io-client';
+import axios from 'axios';
 import { setState, getState, subscribeToState } from 'litsy';
-import QRCode from 'qrcode.react'
 import { Redirect } from 'react-router-dom';
 import { config } from '../../Config';
+import { IValidatedAuthResult } from '../../Models/IValidatedAuthResult';
 
-export class LoginScreen extends React.Component <{}, {
-  qrCode: string | undefined
-}> {
-  socket!: SocketIOClient.Socket;
-  state = {
-    qrCode: undefined
+export const LoginScreen = () => {
+
+  const [authToken, setAuthToken] = useState<string>()
+  const [password, setPassword] = useState<string>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const loginWithExistingToken = async (token: string): Promise<void> => {
+    const result = (await axios.get<IValidatedAuthResult>(`${config.AUTH_SERVER_ENDPOINT}/validate/${token}`)).data
+    if (result.isAuthenticated) 
+    {
+      window.location.assign("/dashboard")
+    }
+    setIsLoading(false)
   }
 
-  componentDidMount() {
-    this.socket = io(config.AUTH_SOCKET_ENDPOINT)
-    this.socket.open();
+  useEffect(() => {
+    subscribeToState("mohammad.dev.auth.authToken", "LoginScreen", () => {
+      setAuthToken(getState("mohammad.dev.auth.authToken", "persist"))
+    }, "persist")
 
-    subscribeToState("mohammad.dev.auth.authToken", "LoginScreen", () => {this.forceUpdate.bind(this)()}, "persist")
+    setAuthToken(getState("mohammad.dev.auth.authToken", "persist"))
 
-    this.socket.on("authenticateSession", (token: string) => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(token);
+    if (authToken && authToken.trim() !== "") 
+    {
+      // test token 
+      loginWithExistingToken(authToken)
+    }
+  }, [])
+  return (
+    <LoginScreenContainer>
+      {
+        isLoading ?
+          <></>
+          :
+          <LoginCard>
+            <StyledInput onKeyDown={async (e) => {
+              if (e.keyCode === 13) {
+                setIsLoading(true)
+                const result = (await axios.post<IValidatedAuthResult>(`${config.AUTH_SERVER_ENDPOINT}/login?password=${password}`)).data
+                if (result.isAuthenticated) {
+                  setState("mohammad.dev.auth.authToken", result.authToken.token, "persist")
+                  window.location.assign("/dashboard")
+                }
+                setIsLoading(false)
+              }
+            }} onChange={(e) => {
+              setPassword(e.target.value)
+            }} type="password" placeholder="Password" />
+            <LoginDescription>
+              Type in your super secret password, Mohammad. 👾
+            </LoginDescription>
+          </LoginCard>
       }
-      setState("mohammad.dev.auth.authToken", token, "persist")
-    })
-
-    this.socket.on("connect", () => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log("successfully conected to auth socket")
-        console.log("socketId: ", this.socket.id)
-      }
-      this.setState({qrCode: this.socket.id})
-    })
-
-    
-  }
-  render() {
-    return (
-      <LoginScreenContainer>
-          {
-            getState("mohammad.dev.auth.authToken", "persist") === null ?
-              this.state.qrCode !== undefined ? 
-                <LoginCard>
-                  <QRCode value={`modev:authenticateClient?code=${this.state.qrCode!}`} /> 
-                  <LoginDescription>
-                    Scan the above QR Code with the authenticator app to approve this session and login.
-                  </LoginDescription>
-                </LoginCard>
-                : null
-              : <Redirect to="/dashboard" />
-
-          }
-          
-      </LoginScreenContainer>
-    );
-  }
+    </LoginScreenContainer>
+  );
 }
 
 const LoginScreenContainer = styled.div`
@@ -64,6 +68,24 @@ const LoginScreenContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 300px;
+`
+
+const StyledInput = styled.input`
+  background: none;
+  border: none;
+  border-radius: 0px;
+  font-size: 20px;
+  padding: 20px;
+  font-family: "Open Sans";
+  color: white;
+  :focus {
+    outline: none;
+    background-color: #121212;
+  }
+  font-weight: 300;
+  ::placeholder {
+    color: #cdcdcd
+  }
 `
 
 const LoginCard = styled.div`
