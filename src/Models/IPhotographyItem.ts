@@ -3,6 +3,11 @@ export interface IPhotographyItem {
     aperture: string
     focalLength: string
     shutterSpeed: string
-    locationAndTime: string
-    imgUri: string
+    location: string
+    time: string
+    imageUri: string
+}
+
+export interface IPhotographyItemsList {
+    items: Array<IPhotographyItem>
 }
