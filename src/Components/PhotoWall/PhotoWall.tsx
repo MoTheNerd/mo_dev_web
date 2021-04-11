@@ -62,7 +62,9 @@ export class PhotoWall extends React.Component<PhotoWallProps> {
                   {
                     row.map((item, itemIndex) => {
                       return (
-                        <ImageItem key={itemIndex} show={this.props.isShown} indexDelay={rowIndex + itemIndex} gridWidth={item.gridWidth} src={item.image.imageUri} />
+                        item.image 
+                        ? <ImageItem key={itemIndex} show={this.props.isShown} indexDelay={rowIndex + itemIndex} gridWidth={item.gridWidth} src={item.image.imageUri} /> 
+                        : null
                       )
                     })
                   }
