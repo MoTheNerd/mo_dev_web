@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import axios from 'axios';
 import { setState, getState, subscribeToState } from 'litsy';
-import { Redirect } from 'react-router-dom';
 import { config } from '../../Config';
 import { IValidatedAuthResult } from '../../Models/IValidatedAuthResult';
 
@@ -33,7 +32,7 @@ export const LoginScreen = () => {
       // test token 
       loginWithExistingToken(authToken)
     }
-  }, [])
+  }, [authToken])
   return (
     <LoginScreenContainer>
       {
@@ -55,7 +54,7 @@ export const LoginScreen = () => {
               setPassword(e.target.value)
             }} type="password" placeholder="Password" />
             <LoginDescription>
-              Type in your super secret password, Mohammad. 👾
+              Type in your super secret password, Mohammad. <span role="img" aria-label="alien emoji">👾</span>
             </LoginDescription>
           </LoginCard>
       }

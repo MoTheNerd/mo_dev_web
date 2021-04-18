@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components';
 import { subscribeToState, setState, getState } from 'litsy'
 import backsvg from '../../Assets/back-button.svg'
+import { logout } from '../../Actions/AuthActions';
 
 let navItems = [
   { to: "/", title: "Home", isActive: true },
@@ -74,6 +75,17 @@ export class NavPanel extends React.Component<NavPanelProps, NavPanelState> {
                 </NavItem>
               </Link>
             )}
+            {
+              (initialToken && initialToken !== "") &&
+              <Link onClick={() => {
+                setState("mohammad.dev.nav.isShown", false, "volatile")
+                logout()
+              }} key={navItems.length} to={"/"}>
+                <NavItem index={navItems.length}>
+                  Logout
+                </NavItem>
+              </Link>
+            }
           </NavPanelContainer>
           : null
         }
